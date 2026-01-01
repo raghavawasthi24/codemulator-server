@@ -9,9 +9,14 @@ async function start() {
 
     wss.on("connection", async (client) => {
         const browser = await puppeteer.launch({
-            headless: true,
-            args: ["--remote-debugging-port=0"]
-        });
+            headless: "new",
+            args: [
+              "--no-sandbox",
+              "--disable-setuid-sandbox",
+              "--disable-dev-shm-usage",
+              "--remote-debugging-port=0"
+            ]
+          });
     
         const browserWSEndpoint = browser.wsEndpoint();
         const cdpHostPort = browserWSEndpoint.replace('ws://', '').split('/')[0];
