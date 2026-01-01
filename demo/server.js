@@ -1,5 +1,8 @@
 import WebSocket, { WebSocketServer } from "ws";
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const CLIENT_PORT = 8081;
 
@@ -7,8 +10,11 @@ async function start() {
     console.log("Starting server on port", CLIENT_PORT);
     const wss = new WebSocketServer({ port: CLIENT_PORT });
 
+    console.log("CHROME_PATH =", process.env.CHROME_PATH);
+
     wss.on("connection", async (client) => {
         const browser = await puppeteer.launch({
+            executablePath: process.env.CHROME_PATH,
             headless: "new",
             args: [
               "--no-sandbox",
