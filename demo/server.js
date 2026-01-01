@@ -4,6 +4,7 @@ import puppeteer from "puppeteer";
 const CLIENT_PORT = 8081;
 
 async function start() {
+    console.log("Starting server on port", CLIENT_PORT);
     const wss = new WebSocketServer({ port: CLIENT_PORT });
 
     wss.on("connection", async (client) => {
