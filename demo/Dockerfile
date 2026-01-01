@@ -1,17 +1,17 @@
 FROM ghcr.io/puppeteer/puppeteer:latest
 
-# Set working directory
+USER root
 WORKDIR /app
+RUN chown -R pptruser:pptruser /app
 
-# Copy package files and install dependencies
-COPY package*.json ./
+COPY --chown=pptruser:pptruser package*.json ./
+
+USER pptruser
 RUN npm install
 
-# Copy the rest of your code
-COPY . .
+COPY --chown=pptruser:pptruser . .
 
-# Render expects a port to be exposed
+ENV PORT=8081
 EXPOSE 8081
 
-# Start the application
 CMD ["node", "server.js"]
